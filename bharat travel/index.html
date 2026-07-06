@@ -1,0 +1,859 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>🇮🇳 Bharat Trip Planner - Plan Your India Journey</title>
+
+    <!-- Leaflet CSS -->
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
+
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" />
+
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&display=swap"
+        rel="stylesheet">
+
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+
+    <!-- ==================== LOADER ==================== -->
+    <div id="loader" class="loader">
+        <div class="loader-content">
+            <div class="plane-animation">
+                <i class="fas fa-train"></i>
+            </div>
+            <h2>🇮🇳 Bharat Trip Planner</h2>
+            <p>Planning your incredible India journey...</p>
+            <div class="loader-bar">
+                <div class="loader-progress"></div>
+            </div>
+        </div>
+    </div>
+
+    <!-- ==================== NAVBAR ==================== -->
+    <nav class="navbar" id="navbar">
+        <div class="nav-container">
+            <div class="nav-logo">
+                <i class="fas fa-om"></i>
+                <span>Bharat Trip</span>
+            </div>
+
+            <ul class="nav-links" id="navLinks">
+                <li><a href="#home" class="nav-link active" data-section="home">
+                    <i class="fas fa-home"></i> Home</a>
+                </li>
+                <li><a href="#map" class="nav-link" data-section="map">
+                    <i class="fas fa-map-marked-alt"></i> Map</a>
+                </li>
+                <li><a href="#itinerary" class="nav-link" data-section="itinerary">
+                    <i class="fas fa-route"></i> Itinerary</a>
+                </li>
+                <li><a href="#budget" class="nav-link" data-section="budget">
+                    <i class="fas fa-wallet"></i> Budget</a>
+                </li>
+                <li><a href="#weather" class="nav-link" data-section="weather">
+                    <i class="fas fa-cloud-sun"></i> Weather</a>
+                </li>
+                <li><a href="#gallery" class="nav-link" data-section="gallery">
+                    <i class="fas fa-images"></i> Gallery</a>
+                </li>
+            </ul>
+
+            <div class="nav-actions">
+                <button class="theme-toggle" id="themeToggle" title="Toggle Theme">
+                    <i class="fas fa-moon"></i>
+                </button>
+                <button class="share-btn-nav" id="shareNavBtn" title="Share Trip">
+                    <i class="fas fa-share-alt"></i>
+                </button>
+                <div class="hamburger" id="hamburger">
+                    <span></span>
+                    <span></span>
+                    <span></span>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <!-- ==================== HERO SECTION ==================== -->
+    <section id="home" class="section hero-section">
+        <div class="hero-background">
+            <div class="floating-elements">
+                <i class="fas fa-train floating-icon" style="--delay: 0s; --x: 10%; --y: 20%"></i>
+                <i class="fas fa-mountain floating-icon" style="--delay: 2s; --x: 80%; --y: 30%"></i>
+                <i class="fas fa-umbrella-beach floating-icon" style="--delay: 4s; --x: 20%; --y: 70%"></i>
+                <i class="fas fa-camera floating-icon" style="--delay: 1s; --x: 70%; --y: 60%"></i>
+                <i class="fas fa-gopuram floating-icon" style="--delay: 3s; --x: 50%; --y: 15%"></i>
+                <i class="fas fa-landmark floating-icon" style="--delay: 5s; --x: 90%; --y: 75%"></i>
+                <i class="fas fa-mosque floating-icon" style="--delay: 6s; --x: 35%; --y: 85%"></i>
+                <i class="fas fa-vihara floating-icon" style="--delay: 7s; --x: 65%; --y: 10%"></i>
+            </div>
+        </div>
+
+        <div class="hero-content">
+            <div class="hero-badge">
+                <i class="fas fa-flag"></i>
+                <span>Explore Incredible India</span>
+            </div>
+            <h1 class="hero-title">
+                Plan Your <span class="gradient-text">Bharat</span> Journey with
+                <span class="gradient-text">Bharat Trip Planner</span>
+            </h1>
+            <p class="hero-subtitle">
+                Plan Indian destinations, manage budget in ₹ Rupees, check weather,
+                and create beautiful travel memories — all in one place.
+            </p>
+
+            <div class="hero-stats">
+                <div class="stat-item">
+                    <span class="stat-number" id="totalTrips">0</span>
+                    <span class="stat-label">Trips Planned</span>
+                </div>
+                <div class="stat-item">
+                    <span class="stat-number" id="totalDestinations">0</span>
+                    <span class="stat-label">Destinations</span>
+                </div>
+                <div class="stat-item">
+                    <span class="stat-number" id="totalPhotos">0</span>
+                    <span class="stat-label">Photos</span>
+                </div>
+            </div>
+
+            <!-- Popular Indian Destinations Quick Access -->
+            <div class="popular-destinations">
+                <p class="popular-label">Popular Destinations:</p>
+                <div class="popular-tags">
+                    <span class="popular-tag" onclick="quickSearchDestination('Taj Mahal, Agra')">🕌 Taj Mahal</span>
+                    <span class="popular-tag" onclick="quickSearchDestination('Goa')">🏖️ Goa</span>
+                    <span class="popular-tag" onclick="quickSearchDestination('Manali')">🏔️ Manali</span>
+                    <span class="popular-tag" onclick="quickSearchDestination('Jaipur')">🏰 Jaipur</span>
+                    <span class="popular-tag" onclick="quickSearchDestination('Kerala')">🌴 Kerala</span>
+                    <span class="popular-tag" onclick="quickSearchDestination('Varanasi')">🛕 Varanasi</span>
+                    <span class="popular-tag" onclick="quickSearchDestination('Ladakh')">🏔️ Ladakh</span>
+                    <span class="popular-tag" onclick="quickSearchDestination('Rishikesh')">🧘 Rishikesh</span>
+                </div>
+            </div>
+
+            <div class="hero-actions">
+                <button class="btn btn-primary btn-lg" id="startPlanningBtn">
+                    <i class="fas fa-rocket"></i>
+                    Start Planning
+                </button>
+                <button class="btn btn-outline btn-lg" id="viewTripsBtn">
+                    <i class="fas fa-folder-open"></i>
+                    My Trips
+                </button>
+            </div>
+        </div>
+
+        <div class="scroll-indicator">
+            <div class="mouse">
+                <div class="wheel"></div>
+            </div>
+            <span>Scroll Down</span>
+        </div>
+    </section>
+
+    <!-- ==================== TRIP MANAGER MODAL ==================== -->
+    <div class="modal" id="tripModal">
+        <div class="modal-overlay"></div>
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2><i class="fas fa-suitcase"></i> <span id="modalTitle">Create New Trip</span></h2>
+                <button class="modal-close" id="closeTripModal">&times;</button>
+            </div>
+            <div class="modal-body">
+                <form id="tripForm">
+                    <div class="form-group">
+                        <label for="tripName">
+                            <i class="fas fa-heading"></i> Trip Name
+                        </label>
+                        <input type="text" id="tripName"
+                            placeholder="e.g., Rajasthan Heritage Tour 2025" required>
+                    </div>
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="tripStart">
+                                <i class="fas fa-calendar-alt"></i> Start Date
+                            </label>
+                            <input type="date" id="tripStart" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="tripEnd">
+                                <i class="fas fa-calendar-check"></i> End Date
+                            </label>
+                            <input type="date" id="tripEnd" required>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="tripBudget">
+                            <i class="fas fa-indian-rupee-sign"></i> Total Budget (₹ Rupees)
+                        </label>
+                        <input type="number" id="tripBudget"
+                            placeholder="e.g., 50000" min="0" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="tripDescription">
+                            <i class="fas fa-align-left"></i> Description
+                        </label>
+                        <textarea id="tripDescription" rows="3"
+                            placeholder="Describe your India trip..."></textarea>
+                    </div>
+                    <div class="form-group">
+                        <label for="tripCover">
+                            <i class="fas fa-image"></i> Cover Image URL (optional)
+                        </label>
+                        <input type="url" id="tripCover"
+                            placeholder="https://example.com/image.jpg">
+                    </div>
+                    <button type="submit" class="btn btn-primary btn-block">
+                        <i class="fas fa-save"></i>
+                        <span id="tripFormBtnText">Create Trip</span>
+                    </button>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <!-- ==================== TRIPS LIST MODAL ==================== -->
+    <div class="modal" id="tripsListModal">
+        <div class="modal-overlay"></div>
+        <div class="modal-content modal-large">
+            <div class="modal-header">
+                <h2><i class="fas fa-folder-open"></i> My Trips</h2>
+                <button class="modal-close" id="closeTripsListModal">&times;</button>
+            </div>
+            <div class="modal-body">
+                <div class="trips-list" id="tripsList"></div>
+                <div class="empty-state" id="noTripsMessage">
+                    <i class="fas fa-suitcase-rolling"></i>
+                    <h3>No trips yet!</h3>
+                    <p>Start planning your first India adventure.</p>
+                    <button class="btn btn-primary" id="createFirstTrip">
+                        <i class="fas fa-plus"></i> Create Trip
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- ==================== MAP SECTION ==================== -->
+    <section id="map" class="section map-section">
+        <div class="section-header">
+            <div class="section-badge">
+                <i class="fas fa-map-marked-alt"></i>
+                <span>India Map</span>
+            </div>
+            <h2 class="section-title">Explore <span class="gradient-text">Indian Destinations</span></h2>
+            <p class="section-subtitle">Search and add Indian destinations to your trip.
+                Click on the map or search for a place in India.</p>
+        </div>
+
+        <div class="map-container">
+            <div class="map-toolbar">
+                <div class="search-box">
+                    <i class="fas fa-search"></i>
+                    <input type="text" id="mapSearch"
+                        placeholder="Search Indian destinations... (Delhi, Goa, Manali)">
+                    <button class="search-btn" id="mapSearchBtn">
+                        <i class="fas fa-arrow-right"></i>
+                    </button>
+                </div>
+                <div class="search-results" id="searchResults"></div>
+
+                <div class="map-actions">
+                    <button class="btn btn-sm btn-outline" id="clearMarkersBtn"
+                        title="Clear All Markers">
+                        <i class="fas fa-trash-alt"></i> Clear All
+                    </button>
+                    <button class="btn btn-sm btn-outline" id="fitBoundsBtn"
+                        title="Fit All Markers">
+                        <i class="fas fa-expand-arrows-alt"></i> Fit View
+                    </button>
+                </div>
+            </div>
+
+            <div id="mapElement" class="map-element"></div>
+
+            <div class="destinations-panel" id="destinationsPanel">
+                <div class="panel-header">
+                    <h3><i class="fas fa-map-pin"></i> Destinations
+                        <span class="badge" id="destCount">0</span>
+                    </h3>
+                    <button class="panel-toggle" id="toggleDestPanel">
+                        <i class="fas fa-chevron-right"></i>
+                    </button>
+                </div>
+                <div class="panel-body">
+                    <div class="destinations-list" id="destinationsList"></div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ==================== ITINERARY SECTION ==================== -->
+    <section id="itinerary" class="section itinerary-section">
+        <div class="section-header">
+            <div class="section-badge">
+                <i class="fas fa-route"></i>
+                <span>Day-by-Day Plan</span>
+            </div>
+            <h2 class="section-title">Plan Your <span class="gradient-text">Itinerary</span></h2>
+            <p class="section-subtitle">Organize your India trip day by day with activities,
+                times, and notes.</p>
+        </div>
+
+        <div class="itinerary-container">
+            <div class="itinerary-toolbar">
+                <button class="btn btn-primary" id="addDayBtn">
+                    <i class="fas fa-plus-circle"></i> Add Day
+                </button>
+                <div class="itinerary-view-toggle">
+                    <button class="view-btn active" data-view="timeline" id="timelineViewBtn">
+                        <i class="fas fa-stream"></i>
+                    </button>
+                    <button class="view-btn" data-view="cards" id="cardsViewBtn">
+                        <i class="fas fa-th-large"></i>
+                    </button>
+                </div>
+            </div>
+
+            <div class="itinerary-timeline" id="itineraryTimeline"></div>
+
+            <div class="empty-state" id="noItineraryMessage">
+                <i class="fas fa-route"></i>
+                <h3>No itinerary yet!</h3>
+                <p>Add days to start planning your India journey.</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- ==================== ADD ACTIVITY MODAL ==================== -->
+    <div class="modal" id="activityModal">
+        <div class="modal-overlay"></div>
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2><i class="fas fa-calendar-plus"></i> Add Activity</h2>
+                <button class="modal-close" id="closeActivityModal">&times;</button>
+            </div>
+            <div class="modal-body">
+                <form id="activityForm">
+                    <input type="hidden" id="activityDayIndex">
+                    <input type="hidden" id="activityEditIndex" value="-1">
+                    <div class="form-group">
+                        <label for="activityName">
+                            <i class="fas fa-tag"></i> Activity Name
+                        </label>
+                        <input type="text" id="activityName"
+                            placeholder="e.g., Visit Taj Mahal" required>
+                    </div>
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="activityTime">
+                                <i class="fas fa-clock"></i> Time
+                            </label>
+                            <input type="time" id="activityTime" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="activityDuration">
+                                <i class="fas fa-hourglass-half"></i> Duration (hrs)
+                            </label>
+                            <input type="number" id="activityDuration"
+                                placeholder="2" min="0.5" step="0.5">
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="activityCategory">
+                            <i class="fas fa-folder"></i> Category
+                        </label>
+                        <select id="activityCategory">
+                            <option value="sightseeing">🏛️ Sightseeing</option>
+                            <option value="temple">🛕 Temple / Religious</option>
+                            <option value="food">🍽️ Food & Dining</option>
+                            <option value="train">🚆 Train Travel</option>
+                            <option value="bus">🚌 Bus Travel</option>
+                            <option value="cab">🚕 Cab / Auto</option>
+                            <option value="flight">✈️ Flight</option>
+                            <option value="hotel">🏨 Hotel / Stay</option>
+                            <option value="shopping">🛍️ Shopping</option>
+                            <option value="adventure">🎯 Adventure</option>
+                            <option value="relaxation">🧘 Relaxation / Spa</option>
+                            <option value="culture">🎭 Culture / Heritage</option>
+                            <option value="nightlife">🌙 Nightlife</option>
+                            <option value="photography">📸 Photography</option>
+                            <option value="other">📌 Other</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label for="activityLocation">
+                            <i class="fas fa-map-marker-alt"></i> Location
+                        </label>
+                        <input type="text" id="activityLocation"
+                            placeholder="e.g., Agra, Uttar Pradesh">
+                    </div>
+                    <div class="form-group">
+                        <label for="activityCost">
+                            <i class="fas fa-indian-rupee-sign"></i> Estimated Cost (₹)
+                        </label>
+                        <input type="number" id="activityCost"
+                            placeholder="0" min="0" step="1">
+                    </div>
+                    <div class="form-group">
+                        <label for="activityNotes">
+                            <i class="fas fa-sticky-note"></i> Notes
+                        </label>
+                        <textarea id="activityNotes" rows="2"
+                            placeholder="Any additional notes..."></textarea>
+                    </div>
+                    <button type="submit" class="btn btn-primary btn-block">
+                        <i class="fas fa-plus"></i> Add Activity
+                    </button>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <!-- ==================== BUDGET SECTION ==================== -->
+    <section id="budget" class="section budget-section">
+        <div class="section-header">
+            <div class="section-badge">
+                <i class="fas fa-wallet"></i>
+                <span>Budget Manager (₹)</span>
+            </div>
+            <h2 class="section-title">Manage Your <span class="gradient-text">Budget in ₹</span></h2>
+            <p class="section-subtitle">Track expenses in Indian Rupees, set budgets,
+                and stay on top of your travel spending.</p>
+        </div>
+
+        <div class="budget-container">
+            <!-- Budget Overview Cards -->
+            <div class="budget-overview">
+                <div class="budget-card total-budget">
+                    <div class="budget-card-icon">
+                        <i class="fas fa-piggy-bank"></i>
+                    </div>
+                    <div class="budget-card-info">
+                        <span class="budget-card-label">Total Budget</span>
+                        <span class="budget-card-amount" id="totalBudgetDisplay">₹0</span>
+                    </div>
+                </div>
+                <div class="budget-card spent">
+                    <div class="budget-card-icon">
+                        <i class="fas fa-credit-card"></i>
+                    </div>
+                    <div class="budget-card-info">
+                        <span class="budget-card-label">Total Spent</span>
+                        <span class="budget-card-amount" id="totalSpentDisplay">₹0</span>
+                    </div>
+                </div>
+                <div class="budget-card remaining">
+                    <div class="budget-card-icon">
+                        <i class="fas fa-coins"></i>
+                    </div>
+                    <div class="budget-card-info">
+                        <span class="budget-card-label">Remaining</span>
+                        <span class="budget-card-amount" id="remainingBudgetDisplay">₹0</span>
+                    </div>
+                </div>
+                <div class="budget-card daily-avg">
+                    <div class="budget-card-icon">
+                        <i class="fas fa-chart-line"></i>
+                    </div>
+                    <div class="budget-card-info">
+                        <span class="budget-card-label">Daily Average</span>
+                        <span class="budget-card-amount" id="dailyAvgDisplay">₹0</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Budget Progress -->
+            <div class="budget-progress-container">
+                <div class="progress-header">
+                    <span>Budget Usage</span>
+                    <span id="budgetPercentage">0%</span>
+                </div>
+                <div class="progress-bar">
+                    <div class="progress-fill" id="budgetProgressFill"></div>
+                </div>
+            </div>
+
+            <div class="budget-content">
+                <!-- Add Expense Form -->
+                <div class="expense-form-container">
+                    <h3><i class="fas fa-plus-circle"></i> Add Expense</h3>
+                    <form id="expenseForm">
+                        <div class="form-group">
+                            <label for="expenseName">Description</label>
+                            <input type="text" id="expenseName"
+                                placeholder="e.g., Rajdhani Express Ticket" required>
+                        </div>
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label for="expenseAmount">Amount (₹)</label>
+                                <input type="number" id="expenseAmount"
+                                    placeholder="0" min="0" step="1" required>
+                            </div>
+                            <div class="form-group">
+                                <label for="expenseCategory">Category</label>
+                                <select id="expenseCategory">
+                                    <option value="hotel">🏨 Hotel / Stay</option>
+                                    <option value="train">🚆 Train</option>
+                                    <option value="bus">🚌 Bus</option>
+                                    <option value="cab">🚕 Cab / Auto</option>
+                                    <option value="flight">✈️ Flight</option>
+                                    <option value="food">🍽️ Food & Dining</option>
+                                    <option value="tickets">🎟️ Entry Tickets</option>
+                                    <option value="shopping">🛍️ Shopping</option>
+                                    <option value="fuel">⛽ Fuel / Petrol</option>
+                                    <option value="guide">🧑‍🏫 Tour Guide</option>
+                                    <option value="insurance">🛡️ Travel Insurance</option>
+                                    <option value="other">📌 Other</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label for="expenseDate">Date</label>
+                            <input type="date" id="expenseDate" required>
+                        </div>
+                        <button type="submit" class="btn btn-primary btn-block">
+                            <i class="fas fa-plus"></i> Add Expense
+                        </button>
+                    </form>
+                </div>
+
+                <!-- Expense Chart -->
+                <div class="expense-chart-container">
+                    <h3><i class="fas fa-chart-pie"></i> Spending Breakdown (₹)</h3>
+                    <div class="chart-wrapper">
+                        <canvas id="expenseChart"></canvas>
+                    </div>
+                    <div class="chart-legend" id="chartLegend"></div>
+                </div>
+            </div>
+
+            <!-- Expense List -->
+            <div class="expense-list-container">
+                <div class="expense-list-header">
+                    <h3><i class="fas fa-list"></i> Expense History</h3>
+                    <div class="expense-filters">
+                        <select id="expenseFilterCategory">
+                            <option value="all">All Categories</option>
+                            <option value="hotel">🏨 Hotel / Stay</option>
+                            <option value="train">🚆 Train</option>
+                            <option value="bus">🚌 Bus</option>
+                            <option value="cab">🚕 Cab / Auto</option>
+                            <option value="flight">✈️ Flight</option>
+                            <option value="food">🍽️ Food</option>
+                            <option value="tickets">🎟️ Entry Tickets</option>
+                            <option value="shopping">🛍️ Shopping</option>
+                            <option value="fuel">⛽ Fuel</option>
+                            <option value="guide">🧑‍🏫 Tour Guide</option>
+                            <option value="insurance">🛡️ Insurance</option>
+                            <option value="other">📌 Other</option>
+                        </select>
+                        <button class="btn btn-sm btn-outline" id="exportExpensesBtn">
+                            <i class="fas fa-download"></i> Export CSV
+                        </button>
+                    </div>
+                </div>
+                <div class="expense-list" id="expenseList"></div>
+                <div class="empty-state" id="noExpensesMessage" style="display: none;">
+                    <i class="fas fa-receipt"></i>
+                    <h3>No expenses yet!</h3>
+                    <p>Start tracking your spending in ₹ Rupees.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ==================== WEATHER SECTION ==================== -->
+    <section id="weather" class="section weather-section">
+        <div class="section-header">
+            <div class="section-badge">
+                <i class="fas fa-cloud-sun"></i>
+                <span>India Weather</span>
+            </div>
+            <h2 class="section-title">Check <span class="gradient-text">Indian City Weather</span></h2>
+            <p class="section-subtitle">Get weather forecasts for Indian cities
+                to plan your trip accordingly.</p>
+        </div>
+
+        <div class="weather-container">
+            <div class="weather-search">
+                <div class="search-box">
+                    <i class="fas fa-search"></i>
+                    <input type="text" id="weatherSearch"
+                        placeholder="Enter Indian city name... (Delhi, Mumbai, Goa)">
+                    <button class="search-btn" id="weatherSearchBtn">
+                        <i class="fas fa-arrow-right"></i>
+                    </button>
+                </div>
+
+                <!-- Popular Indian Cities Quick Links -->
+                <div class="destination-quick-links" id="weatherQuickLinks">
+                    <button class="quick-link" onclick="fetchWeatherQuick('Delhi')">
+                        🏛️ Delhi
+                    </button>
+                    <button class="quick-link" onclick="fetchWeatherQuick('Mumbai')">
+                        🌆 Mumbai
+                    </button>
+                    <button class="quick-link" onclick="fetchWeatherQuick('Goa')">
+                        🏖️ Goa
+                    </button>
+                    <button class="quick-link" onclick="fetchWeatherQuick('Jaipur')">
+                        🏰 Jaipur
+                    </button>
+                    <button class="quick-link" onclick="fetchWeatherQuick('Manali')">
+                        🏔️ Manali
+                    </button>
+                    <button class="quick-link" onclick="fetchWeatherQuick('Chennai')">
+                        🌊 Chennai
+                    </button>
+                    <button class="quick-link" onclick="fetchWeatherQuick('Kolkata')">
+                        🌉 Kolkata
+                    </button>
+                    <button class="quick-link" onclick="fetchWeatherQuick('Bengaluru')">
+                        💻 Bengaluru
+                    </button>
+                    <button class="quick-link" onclick="fetchWeatherQuick('Varanasi')">
+                        🛕 Varanasi
+                    </button>
+                    <button class="quick-link" onclick="fetchWeatherQuick('Shimla')">
+                        ❄️ Shimla
+                    </button>
+                </div>
+            </div>
+
+            <!-- Current Weather -->
+            <div class="current-weather" id="currentWeather" style="display: none;">
+                <div class="weather-main">
+                    <div class="weather-icon-large" id="weatherIconLarge">
+                        <i class="fas fa-sun"></i>
+                    </div>
+                    <div class="weather-temp">
+                        <span class="temp-value" id="currentTemp">--</span>
+                        <span class="temp-unit">°C</span>
+                    </div>
+                    <div class="weather-desc" id="weatherDesc">--</div>
+                    <div class="weather-city" id="weatherCity">--</div>
+                </div>
+                <div class="weather-details">
+                    <div class="weather-detail-item">
+                        <i class="fas fa-tint"></i>
+                        <span>Humidity</span>
+                        <strong id="weatherHumidity">--%</strong>
+                    </div>
+                    <div class="weather-detail-item">
+                        <i class="fas fa-wind"></i>
+                        <span>Wind</span>
+                        <strong id="weatherWind">-- km/h</strong>
+                    </div>
+                    <div class="weather-detail-item">
+                        <i class="fas fa-eye"></i>
+                        <span>Visibility</span>
+                        <strong id="weatherVisibility">-- km</strong>
+                    </div>
+                    <div class="weather-detail-item">
+                        <i class="fas fa-compress-arrows-alt"></i>
+                        <span>Pressure</span>
+                        <strong id="weatherPressure">-- hPa</strong>
+                    </div>
+                    <div class="weather-detail-item">
+                        <i class="fas fa-sunrise"></i>
+                        <span>Sunrise</span>
+                        <strong id="weatherSunrise">--:--</strong>
+                    </div>
+                    <div class="weather-detail-item">
+                        <i class="fas fa-sunset"></i>
+                        <span>Sunset</span>
+                        <strong id="weatherSunset">--:--</strong>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 5-Day Forecast -->
+            <div class="forecast-container" id="forecastContainer" style="display: none;">
+                <h3><i class="fas fa-calendar-week"></i> 5-Day Forecast</h3>
+                <div class="forecast-cards" id="forecastCards"></div>
+            </div>
+
+            <!-- Weather placeholder -->
+            <div class="empty-state" id="noWeatherMessage">
+                <i class="fas fa-cloud-sun"></i>
+                <h3>Search for an Indian city</h3>
+                <p>Enter a city name to get the current weather and forecast.</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- ==================== GALLERY SECTION ==================== -->
+    <section id="gallery" class="section gallery-section">
+        <div class="section-header">
+            <div class="section-badge">
+                <i class="fas fa-images"></i>
+                <span>Trip Gallery</span>
+            </div>
+            <h2 class="section-title">India Trip <span class="gradient-text">Gallery</span></h2>
+            <p class="section-subtitle">Upload and organize your India travel photos.
+                Create beautiful memories.</p>
+        </div>
+
+        <div class="gallery-container">
+            <div class="gallery-toolbar">
+                <div class="gallery-upload">
+                    <label for="photoUpload" class="btn btn-primary">
+                        <i class="fas fa-cloud-upload-alt"></i> Upload Photos
+                    </label>
+                    <input type="file" id="photoUpload" multiple
+                        accept="image/*" style="display: none;">
+                </div>
+                <div class="gallery-filters">
+                    <button class="filter-btn active" data-filter="all">All</button>
+                    <button class="filter-btn" data-filter="favorite">
+                        <i class="fas fa-heart"></i> Favorites
+                    </button>
+                </div>
+                <div class="gallery-view-toggle">
+                    <button class="view-btn active" data-view="grid" id="gridViewBtn">
+                        <i class="fas fa-th"></i>
+                    </button>
+                    <button class="view-btn" data-view="masonry" id="masonryViewBtn">
+                        <i class="fas fa-columns"></i>
+                    </button>
+                </div>
+            </div>
+
+            <div class="gallery-grid" id="galleryGrid"></div>
+
+            <div class="empty-state" id="noPhotosMessage">
+                <i class="fas fa-camera-retro"></i>
+                <h3>No photos yet!</h3>
+                <p>Upload your India travel photos to create a beautiful gallery.</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- ==================== LIGHTBOX ==================== -->
+    <div class="lightbox" id="lightbox">
+        <div class="lightbox-overlay"></div>
+        <div class="lightbox-content">
+            <button class="lightbox-close" id="closeLightbox">&times;</button>
+            <button class="lightbox-nav lightbox-prev" id="lightboxPrev">
+                <i class="fas fa-chevron-left"></i>
+            </button>
+            <img src="" alt="" id="lightboxImage" class="lightbox-image">
+            <button class="lightbox-nav lightbox-next" id="lightboxNext">
+                <i class="fas fa-chevron-right"></i>
+            </button>
+            <div class="lightbox-info">
+                <span id="lightboxCaption"></span>
+                <span id="lightboxCounter"></span>
+            </div>
+        </div>
+    </div>
+
+    <!-- ==================== SHARE MODAL ==================== -->
+    <div class="modal" id="shareModal">
+        <div class="modal-overlay"></div>
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2><i class="fas fa-share-alt"></i> Share Trip</h2>
+                <button class="modal-close" id="closeShareModal">&times;</button>
+            </div>
+            <div class="modal-body">
+                <div class="share-preview" id="sharePreview">
+                    <div class="share-card">
+                        <h3 id="shareTripName">My India Trip</h3>
+                        <p id="shareTripDates">--</p>
+                        <p id="shareTripDestCount">0 destinations</p>
+                    </div>
+                </div>
+
+                <div class="share-options">
+                    <h4>Share via</h4>
+                    <div class="share-buttons">
+                        <button class="share-option" id="shareWhatsApp">
+                            <i class="fab fa-whatsapp"></i>
+                            <span>WhatsApp</span>
+                        </button>
+                        <button class="share-option" id="shareTwitter">
+                            <i class="fab fa-twitter"></i>
+                            <span>Twitter</span>
+                        </button>
+                        <button class="share-option" id="shareFacebook">
+                            <i class="fab fa-facebook-f"></i>
+                            <span>Facebook</span>
+                        </button>
+                        <button class="share-option" id="shareEmail">
+                            <i class="fas fa-envelope"></i>
+                            <span>Email</span>
+                        </button>
+                    </div>
+                </div>
+
+                <div class="share-link-container">
+                    <h4>Or copy trip data</h4>
+                    <div class="share-link-box">
+                        <textarea id="shareLinkText" rows="4" readonly></textarea>
+                        <button class="btn btn-primary" id="copyShareLink">
+                            <i class="fas fa-copy"></i> Copy
+                        </button>
+                    </div>
+                </div>
+
+                <div class="share-export">
+                    <h4>Export</h4>
+                    <div class="export-buttons">
+                        <button class="btn btn-outline" id="exportJSON">
+                            <i class="fas fa-file-code"></i> Export JSON
+                        </button>
+                        <button class="btn btn-outline" id="exportPDF">
+                            <i class="fas fa-file-pdf"></i> Print/PDF
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- ==================== TOAST NOTIFICATIONS ==================== -->
+    <div class="toast-container" id="toastContainer"></div>
+
+    <!-- ==================== FOOTER ==================== -->
+    <footer class="footer">
+        <div class="footer-content">
+            <div class="footer-logo">
+                <i class="fas fa-om"></i>
+                <span>Bharat Trip Planner</span>
+            </div>
+            <p>Plan your perfect India journey. Made with ❤️ in India using HTML, CSS & JavaScript.</p>
+            <div class="footer-links">
+                <a href="#home">Home</a>
+                <a href="#map">Map</a>
+                <a href="#itinerary">Itinerary</a>
+                <a href="#budget">Budget</a>
+                <a href="#weather">Weather</a>
+                <a href="#gallery">Gallery</a>
+            </div>
+            <p class="footer-copyright">© 2025 Bharat Trip Planner. All rights reserved. 🇮🇳</p>
+        </div>
+    </footer>
+
+    <!-- ==================== SCRIPTS ==================== -->
+    <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
+
+    <script src="js/app.js"></script>
+    <script src="js/map.js"></script>
+    <script src="js/itinerary.js"></script>
+    <script src="js/budget.js"></script>
+    <script src="js/weather.js"></script>
+    <script src="js/gallery.js"></script>
+    <script src="js/share.js"></script>
+
+</body>
+</html>
